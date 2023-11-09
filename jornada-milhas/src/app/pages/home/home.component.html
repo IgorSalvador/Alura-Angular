@@ -4,23 +4,15 @@
     alt="Banner da aplicação Jornada"
   ></app-banner>
   <app-container>
-    <h2>Promoções</h2>
     <app-form-busca></app-form-busca>
 
     <div class="card-wrapper">
-      <app-card-busca></app-card-busca>
-      <app-card-busca></app-card-busca>
-      <app-card-busca></app-card-busca>
-      <app-card-busca></app-card-busca>
-      <app-card-busca></app-card-busca>
-      <app-card-busca></app-card-busca>
+      <app-card-busca  *ngFor="let item of promocoes" [promocao]="item" />
     </div>
 
     <h2>Depoimentos</h2>
     <div class="card-wrapper">
-      <app-card-depoimento></app-card-depoimento>
-      <app-card-depoimento></app-card-depoimento>
-      <app-card-depoimento></app-card-depoimento>
+      <app-card-depoimento  *ngFor="let item of depoimentos" [depoimento]="item" />
     </div>
   </app-container>
   <app-banner
