@@ -1,4 +1,4 @@
-import { UnidadeFederativa } from './../../../core/interfaces/unidadefederativa';
+import { UnidadeFederativa } from '../../core/interfaces/unidadefederativa';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
@@ -12,6 +12,7 @@ import { UnidadefederativaService } from 'src/app/core/services/unidadefederativ
 export class DropdownUfComponent implements OnInit {
   @Input() label: string = '';
   @Input() iconePrefixo: string = '';
+  @Input() placeholder: string = '';
   @Input() control!: FormControl;
 
   unidadesFederativas: UnidadeFederativa[] = [];
@@ -28,7 +29,6 @@ export class DropdownUfComponent implements OnInit {
     this.unidadeFederativaService.Get()
       .subscribe(dados => {
         this.unidadesFederativas = dados
-        console.log(this.unidadesFederativas)
       })
     this.filteredOptions$ = this.control.valueChanges.pipe(
       startWith(''),
@@ -36,8 +36,13 @@ export class DropdownUfComponent implements OnInit {
     )
   }
 
-  filtrarUfs(value: string): UnidadeFederativa[] {
-    const valorFiltrado = value?.toLowerCase();
+  displayFn(estado: UnidadeFederativa): string {
+    return estado && estado.nome ? estado.nome : '';
+  }
+
+  filtrarUfs(value: string | UnidadeFederativa): UnidadeFederativa[] {
+    const nameUf = typeof value === 'string' ? value : value?.nome;
+    const valorFiltrado = nameUf?.toLowerCase();
     const result = this.unidadesFederativas.filter(
       estado => estado.nome.toLowerCase().includes(valorFiltrado)
     )
